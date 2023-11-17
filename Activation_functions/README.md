@@ -90,3 +90,11 @@ __Disadvantages:__
 #### Leaky relu
 
 it solves the duying nueron problem.
+
+
+## What is the purpose of an activation function in a neural network?
+    ->Introducing Non-Linearity
+    ->Introduction of Thresholding
+
+
+##
