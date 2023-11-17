@@ -38,9 +38,9 @@ Zero-Centered: No, not zero-centered.
 
 __Advantages:__
 
-Suitable for binary classification problems where the output needs to represent probabilities.
+    ->Suitable for binary classification problems where the output needs to represent probabilities.
 
-Smooth gradient, which is beneficial for optimization algorithms.
+    ->Smooth gradient, which is beneficial for optimization algorithms.
 
 
 __Disadvantages:__
@@ -65,7 +65,7 @@ __Advantages:__
 
 __Disadvantages:__
 
-Still susceptible to vanishing gradient, although less severe than sigmoid.
+    ->Still susceptible to vanishing gradient, although less severe than sigmoid.
 
 ### ReLU (Rectified Linear Unit):
 
