@@ -36,32 +36,34 @@ Range: Outputs values in the range (0, 1).
 
 Zero-Centered: No, not zero-centered.
 
-Advantages:
+__Advantages:__
 
 Suitable for binary classification problems where the output needs to represent probabilities.
 
 Smooth gradient, which is beneficial for optimization algorithms.
 
-Disadvantages:
 
-Prone to vanishing gradient problem, especially in deep networks.
+__Disadvantages:__
 
-Not zero-centered, which can affect optimization dynamics.
+    ->Prone to vanishing gradient problem, especially in deep networks.
+
+    ->Not zero-centered, which can affect optimization dynamics.
 #### Tanh (Hyperbolic Tangent):
 
 Range: Outputs values in the range (-1, 1).
 
 Zero-Centered: Yes, zero-centered around the origin.
 
-Advantages:
+__Advantages:__
 
-Zero-centeredness helps mitigate vanishing gradient problems.
+    ->Zero-centeredness helps mitigate vanishing gradient problems.
 
-Smooth gradient for efficient optimization.
+    ->Smooth gradient for efficient optimization.
 
-Broader output range compared to sigmoid.
+    ->Broader output range compared to sigmoid.
 
-Disadvantages:
+
+__Disadvantages:__
 
 Still susceptible to vanishing gradient, although less severe than sigmoid.
 
@@ -71,15 +73,20 @@ Range: Outputs the input for positive values, and zero for negative values.
 
 Zero-Centered: No, not zero-centered.
 
-Advantages:
-Fast and computationally efficient due to simplicity.
+__Advantages:__
+    -> Fast and computationally efficient due to simplicity.
 
-Mitigates vanishing gradient problem for positive inputs.
+    -> Mitigates vanishing gradient problem for positive inputs.
 
-Promotes sparsity, leading to more efficient representations.
+    -> Promotes sparsity, leading to more efficient representations- sparsoty means that not all nuerons will be activated (due to negative being zero). This helps in the decreasing complexity and computation.
 
-Disadvantages:
+__Disadvantages:__
 
-Not zero-centered, which may lead to issues in optimization, especially for certain types of networks.
+    ->Not zero-centered, which may lead to issues in optimization, especially for certain types of networks.
 
-Can suffer from the "dying ReLU" problem, where neurons may become inactive during training and stop learning.
+    -> Can suffer from the "dying ReLU" problem, where neurons may become inactive during training and stop learning.
+
+
+#### Leaky relu
+
+it solves the duying nueron problem.
