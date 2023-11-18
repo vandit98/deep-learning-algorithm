@@ -1,0 +1,3 @@
+https://towardsdatascience.com/applied-deep-learning-part-1-artificial-neural-networks-d7834f67a4f6#fe06
+# Covers ann and logistic regression
+
