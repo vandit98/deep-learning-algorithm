@@ -131,15 +131,19 @@ Rprop is equivalent of using the gradient but also dividing by the size of the g
 As you can see from the above equation we adapt learning rate by dividing by the root of squared gradient, but since we only have the estimate of the gradient on the current mini-batch, wee need instead to use the moving average of it. Default value for the moving average parameter that you can use in your projects is 0.9. 
 
 
+
+
+
 ![Alt text](<1 - 2dKCQHh - Long Valley.gif>)
-__Algos without scaling based on gradient information really struggle to break symmetry here - SGD gets no where and Nesterov Accelerated Gradient / Momentum exhibits oscillations until they build up velocity in the optimization direction.__
+
+#### __Algos without scaling based on gradient information really struggle to break symmetry here - SGD gets no where and Nesterov Accelerated Gradient / Momentum exhibits oscillations until they build up velocity in the optimization direction.__
 
 ![Alt text](<2 - pD0hWu5 - Beale's function.gif>)
-__Due to the large initial gradient, velocity based techniques shoot off and bounce around - adagrad almost goes unstable for the same reason.Algos that scale gradients/step sizes like adadelta and RMSProp proceed more like accelerated SGD and handle large gradients with more stability.__
+#### __Due to the large initial gradient, velocity based techniques shoot off and bounce around - adagrad almost goes unstable for the same reason.Algos that scale gradients/step sizes like adadelta and RMSProp proceed more like accelerated SGD and handle large gradients with more stability.__
 
 
 ![Alt text](<3 - NKsFHJb - Saddle Point.gif>)
-__Behavior around a saddle point.NAG/Momentum again like to explore around, almost taking a different path.Adadelta/Adagrad/RMSProp proceed like accelerated SGD.__
+####  __Behavior around a saddle point.NAG/Momentum again like to explore around, almost taking a different path.Adadelta/Adagrad/RMSProp proceed like accelerated SGD.__
 
 
 
