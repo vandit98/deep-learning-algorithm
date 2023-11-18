@@ -16,7 +16,7 @@ __Computationally expensive__
 ![Alt text](image-2.png)
 
 
-### why we do not use quasi newton method rather than stocastic gradient descent?
+## why we do not use quasi newton method rather than stocastic gradient descent?
 
 #### Memory Requirements:
 
@@ -44,7 +44,7 @@ __Computationally expensive__
 - The effectiveness of quasi-Newton methods relies on certain smoothness assumptions that may not hold in the presence of regularization.
 
 
-### What is adagrad?
+## What is adagrad?
 ![Alt text](image-3.png)
 
 
@@ -58,7 +58,7 @@ After soem modification it converts to
 ![Alt text](image-5.png)
 
 
-### Why adagrad performs well on Sparse Data(where many features have zero values)?
+## Why adagrad performs well on Sparse Data(where many features have zero values)?
 
 
 #### Adagrad and Sparse Data
@@ -81,11 +81,11 @@ Adagrad's adaptability in adjusting learning rates makes it particularly effecti
 
 
 
-### What are the scenarios when adagrad does not wwork well?
+## What are the scenarios when adagrad does not wwork well?
 Adagrad got stuck because of aggressive behavior
 near the convergence(rapiddly dimnishing learning rate).RMSProp solve this problem by being less aggressive on the decay.
 
-#### Adagrad Drawbacks
+### Adagrad Drawbacks
 
 __Learning Rate Decay__
 
@@ -115,16 +115,16 @@ These limitations highlight scenarios where caution or alternative optimization 
 
 
 
-### What is rprop and its working?
+## What is rprop and its working?
 ![Alt text](image-6.png)
 
 
-### Where will Rprop fail?
+## Where will Rprop fail?
 Rprop doesn’t really work when we have very large datasets and need to perform mini-batch weights updates. Why it doesn’t work with mini-batches ? Well, people have tried it, but found it hard to make it work. The reason it doesn’t work is that it violates the central idea behind stochastic gradient descent, which is when we have small enough learning rate, it averages the gradients over successive mini-batches. Consider the weight, that gets the gradient 0.1 on nine mini-batches, and the gradient of -0.9 on tenths mini-batch. What we’d like is to those gradients to roughly cancel each other out, so that the stay approximately the same. But it’s not what happens with rprop. With rprop, we increment the weight 9 times and decrement only once, so the weight grows much larger.
 
 To combine the robustness of rprop (by just using sign of the gradient), efficiency we get from mini-batches, and averaging over mini-batches which allows to combine gradients in the right way, we must look at rprop from different perspective. 
 
-### Describe the idea behind Rmsprop?
+## Describe the idea behind Rmsprop?
 Rprop is equivalent of using the gradient but also dividing by the size of the gradient, so we get the same magnitude no matter how big a small that particular gradient is. The problem with mini-batches is that we divide by different gradient every time, so why not force the number we divide by to be similar for adjacent mini-batches ? The central idea of RMSprop is keep the moving average of the squared gradients for each weight. And then we divide the gradient by square root the mean square. Which is why it’s called RMSprop(root mean square). With math equations the update rule looks like this:
 
 ![Alt text](image-7.png)
@@ -149,3 +149,41 @@ As you can see from the above equation we adapt learning rate by dividing by the
 
 
 
+##  What are the Drawbacks of RMSprop and how adam solves them?
+
+### Learning Rate Decay
+
+#### RMSprop:
+RMSprop adapts learning rates based on the moving average of squared gradients. However, it lacks a per-parameter adaptive learning rate mechanism.
+
+#### Adam:
+Adam incorporates momentum and an adaptive learning rate. It utilizes moving averages of both gradients and squared gradients, addressing the issue of aggressive learning rate decay.
+
+### Bias Correction
+
+### RMSprop:
+The accumulated squared gradients in RMSprop can lead to biased estimates of second-order moments, particularly in the initial training steps.
+
+### Adam:
+Adam introduces bias correction terms for the first and second moments, reducing bias towards zero during early training steps.
+
+#### Lack of Momentum
+
+### RMSprop:
+RMSprop lacks a momentum term, which could assist in navigating flat regions and escaping local minima more effectively.
+
+### Adam:
+Adam includes a momentum term similar to SGD with momentum, aiding optimization, especially in the presence of noisy gradients.
+
+## Sensitivity to Hyperparameters
+
+### RMSprop:
+RMSprop requires careful tuning of hyperparameters, including the learning rate.
+
+### Adam:
+While less sensitive than RMSprop, Adam still requires hyperparameter tuning. Common choices include values for the learning rate, momentum term, and decay rates.
+
+## Improved Handling of Sparse Gradients
+
+### Adam:
+Adam has been shown to perform well with sparse gradients, making it suitable for tasks with large and sparse datasets.
