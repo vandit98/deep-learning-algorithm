@@ -44,3 +44,102 @@ __Computationally expensive__
 - The effectiveness of quasi-Newton methods relies on certain smoothness assumptions that may not hold in the presence of regularization.
 
 
+### What is adagrad?
+![Alt text](image-3.png)
+
+
+Adagrad is different from stocastic gradient descent
+
+![Alt text](image-4.png)
+
+    ->we can see that Stochastic Gradient Decent use same learning rate at each iteration in all dimension. On the other hand, AdaGrad adaptively scaled the learning rate with respect to the accumulated squared gradient at each iteration in each dimension.
+
+After soem modification it converts to 
+![Alt text](image-5.png)
+
+
+### Why adagrad performs well on Sparse Data(where many features have zero values)?
+
+
+#### Adagrad and Sparse Data
+
+In the context of sparse data, where many features have zero values, using a fixed learning rate for all parameters may not be the most efficient approach. Some features may have more frequent updates and need a smaller learning rate to avoid overshooting, while others may be updated infrequently and can benefit from a larger learning rate.
+
+Adagrad addresses this challenge by adapting the learning rates for each parameter individually. This is achieved by maintaining a separate learning rate for each feature based on the historical gradient information. Here's a simplified explanation of how Adagrad works:
+
+__Accumulating Squared Gradients__
+Adagrad maintains a sum of the squares of past gradients for each parameter.
+
+__Adaptive Learning Rates__
+The learning rate for each parameter is adjusted based on the historical gradient information. Parameters associated with frequently occurring features get a smaller effective learning rate, while those associated with infrequently occurring features get a larger effective learning rate.
+
+__For Sparse Data:__
+- Features that are more sparse (occur less frequently) will have their accumulated squared gradients increase more slowly, resulting in a relatively larger effective learning rate.
+- Features that are less sparse (occur more frequently) will have their accumulated squared gradients increase more quickly, resulting in a relatively smaller effective learning rate.
+
+Adagrad's adaptability in adjusting learning rates makes it particularly effective in handling sparse data scenarios.
+
+
+
+### What are the scenarios when adagrad does not wwork well?
+Adagrad got stuck because of aggressive behavior
+near the convergence(rapiddly dimnishing learning rate).RMSProp solve this problem by being less aggressive on the decay.
+
+#### Adagrad Drawbacks
+
+__Learning Rate Decay__
+
+    ->Adagrad utilizes an adaptive learning rate mechanism, but the accumulated squared gradients can become very large over time. Consequently, the learning rates for some parameters may decay too aggressively, leading to very small effective learning rates in the later stages of training. This can significantly slow down the learning process.
+
+__Monotonically Decreasing Learning Rate__
+
+    ->The accumulation of squared gradients is monotonic, causing the learning rate to decrease over time. In some cases, this monotonically decreasing learning rate may become too small, hindering the model's ability to make further updates, especially in later stages of training.
+
+__Memory Requirements__
+
+    ->Adagrad accumulates the squared gradients for each parameter, resulting in increased memory requirements. This can be a significant limitation, particularly when dealing with large datasets or high-dimensional feature spaces, and may pose challenges in scenarios where memory resources are constrained.
+
+__Inability to Adapt to Sparse Features Dynamically__
+
+    ->While Adagrad is designed to handle sparse data to some extent, it may not adapt well to dynamically changing sparsity patterns during training. In situations where the sparsity of features changes over time, other adaptive methods like RMSprop or Adam might be more suitable.
+
+__Not Suitable for Non-Convex Optimization__
+
+Adagrad's adaptive learning rate approach may not be well-suited for non-convex optimization problems. In non-convex scenarios, the adaptive learning rates can lead to oscillations or convergence to suboptimal solutions.
+
+__Sensitivity to Initial Learning Rate__
+
+The performance of Adagrad can be sensitive to the choice of the initial learning rate. If the initial learning rate is set too high, it may result in large updates early in training, potentially causing convergence issues.
+
+These limitations highlight scenarios where caution or alternative optimization algorithms may be warranted.
+
+
+
+### What is rprop and its working?
+![Alt text](image-6.png)
+
+
+### Where will Rprop fail?
+Rprop doesn’t really work when we have very large datasets and need to perform mini-batch weights updates. Why it doesn’t work with mini-batches ? Well, people have tried it, but found it hard to make it work. The reason it doesn’t work is that it violates the central idea behind stochastic gradient descent, which is when we have small enough learning rate, it averages the gradients over successive mini-batches. Consider the weight, that gets the gradient 0.1 on nine mini-batches, and the gradient of -0.9 on tenths mini-batch. What we’d like is to those gradients to roughly cancel each other out, so that the stay approximately the same. But it’s not what happens with rprop. With rprop, we increment the weight 9 times and decrement only once, so the weight grows much larger.
+
+To combine the robustness of rprop (by just using sign of the gradient), efficiency we get from mini-batches, and averaging over mini-batches which allows to combine gradients in the right way, we must look at rprop from different perspective. 
+
+### Describe the idea behind Rmsprop?
+Rprop is equivalent of using the gradient but also dividing by the size of the gradient, so we get the same magnitude no matter how big a small that particular gradient is. The problem with mini-batches is that we divide by different gradient every time, so why not force the number we divide by to be similar for adjacent mini-batches ? The central idea of RMSprop is keep the moving average of the squared gradients for each weight. And then we divide the gradient by square root the mean square. Which is why it’s called RMSprop(root mean square). With math equations the update rule looks like this:
+
+![Alt text](image-7.png)
+As you can see from the above equation we adapt learning rate by dividing by the root of squared gradient, but since we only have the estimate of the gradient on the current mini-batch, wee need instead to use the moving average of it. Default value for the moving average parameter that you can use in your projects is 0.9. 
+
+__Algos without scaling based on gradient information really struggle to break symmetry here - SGD gets no where and Nesterov Accelerated Gradient / Momentum exhibits oscillations until they build up velocity in the optimization direction.__
+
+![Animated Example](1 - 2dKCQHh - Long Valley.gif)
+
+__Due to the large initial gradient, velocity based techniques shoot off and bounce around - adagrad almost goes unstable for the same reason.Algos that scale gradients/step sizes like adadelta and RMSProp proceed more like accelerated SGD and handle large gradients with more stability.__
+
+![Animated Example](2 - pD0hWu5 - Beale's function.gif)
+
+__Behavior around a saddle point.NAG/Momentum again like to explore around, almost taking a different path.Adadelta/Adagrad/RMSProp proceed like accelerated SGD.__
+
+![Animated Example](3 - NKsFHJb - Saddle Point.gif)
+
+
