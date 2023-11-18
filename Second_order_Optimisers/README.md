@@ -132,14 +132,13 @@ As you can see from the above equation we adapt learning rate by dividing by the
 
 __Algos without scaling based on gradient information really struggle to break symmetry here - SGD gets no where and Nesterov Accelerated Gradient / Momentum exhibits oscillations until they build up velocity in the optimization direction.__
 
-![Animated Example](1 - 2dKCQHh - Long Valley.gif)
-
+![Animated Example](https://vscode.dev/github/vandit98/deep-learning-algorithm/blob/main/Second_order_Optimisers/1%20-%202dKCQHh%20-%20Long%20Valley.gif)
 __Due to the large initial gradient, velocity based techniques shoot off and bounce around - adagrad almost goes unstable for the same reason.Algos that scale gradients/step sizes like adadelta and RMSProp proceed more like accelerated SGD and handle large gradients with more stability.__
 
-![Animated Example](2 - pD0hWu5 - Beale's function.gif)
+![Animated Example](https://vscode.dev/github/vandit98/deep-learning-algorithm/blob/main/Second_order_Optimisers/2%20-%20pD0hWu5%20-%20Beale's%20function.gif)
 
 __Behavior around a saddle point.NAG/Momentum again like to explore around, almost taking a different path.Adadelta/Adagrad/RMSProp proceed like accelerated SGD.__
 
-![Animated Example](3 - NKsFHJb - Saddle Point.gif)
+![Animated Example](https://vscode.dev/github/vandit98/deep-learning-algorithm/blob/main/Second_order_Optimisers/3%20-%20NKsFHJb%20-%20Saddle%20Point.gif)
 
 
