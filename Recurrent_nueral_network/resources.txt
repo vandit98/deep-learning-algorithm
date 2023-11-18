@@ -1,0 +1,5 @@
+Beautiful_visualisationn
+https://joshvarty.github.io/VisualizingRNNs/
+
+# Source-learning
+https://towardsdatascience.com/recurrent-neural-networks-rnns-3f06d7653a85
