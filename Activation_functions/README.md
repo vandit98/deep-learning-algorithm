@@ -158,3 +158,8 @@ Focusing too much on exploration (randomness in selecting data points) can hinde
 Tune the balance between exploration and exploitation. Techniques like learning rate annealing and reducing the randomness of data point selection can help.
 
 These common issues and solutions highlight the challenges in optimizing Stochastic Gradient Descent and the strategies to enhance its convergence speed and effectiveness.
+
+
+## Since relu is a linear function , then how it brings the non linearity in the network?
+
+Although each ReLU unit is a linear function for positive inputs (as it returns the input itself), it introduces non-linearity because of the "turning off" behavior for negative inputs (outputting 0). This binary on/off nature for negative inputs is what imparts non-linearity to the overall network.
