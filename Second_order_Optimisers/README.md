@@ -5,7 +5,7 @@ __Highly sensitive to initial conditions__
 __Positive Definite Hessian__
     -> if the hessian is not positive definite the update may increase the objective function value.Correspondingly, we require the Hessian to be positive definite.
 __Computationally expensive__
-    ->As the dimensions of our problem increases, the overhead in memory and time gets out of hand very quickly. For example, in 50 dimensions, we’ll have to calculate 50(50+1)/2 = 1275 values for the Hessian at each step, and then perform approximately another (53*2500) operations to invert it. It’s clear at this point that the benefit of an increased convergence rate will be far outweighed by the large cost of the additional computation time. (computing the Hessian scales as O(n²), inverting it scales as O(n³))
+   As the dimensions of our problem increases, the overhead in memory and time gets out of hand very quickly. For example, in 50 dimensions, we’ll have to calculate 50(50+1)/2 = 1275 values for the Hessian at each step, and then perform approximately another (53*2500) operations to invert it. It’s clear at this point that the benefit of an increased convergence rate will be far outweighed by the large cost of the additional computation time. (computing the Hessian scales as O(n²), inverting it scales as O(n³))
 
 
 ### Newton Method?
@@ -89,7 +89,7 @@ near the convergence(rapiddly dimnishing learning rate).RMSProp solve this probl
 
 __Learning Rate Decay__
 
-    ->Adagrad utilizes an adaptive learning rate mechanism, but the accumulated squared gradients can become very large over time. Consequently, the learning rates for some parameters may decay too aggressively, leading to very small effective learning rates in the later stages of training. This can significantly slow down the learning process.
+   Adagrad utilizes an adaptive learning rate mechanism, but the accumulated squared gradients can become very large over time. Consequently, the learning rates for some parameters may decay too aggressively, leading to very small effective learning rates in the later stages of training. This can significantly slow down the learning process.
 
 __Monotonically Decreasing Learning Rate__
 
@@ -97,7 +97,7 @@ __Monotonically Decreasing Learning Rate__
 
 __Memory Requirements__
 
-    ->Adagrad accumulates the squared gradients for each parameter, resulting in increased memory requirements. This can be a significant limitation, particularly when dealing with large datasets or high-dimensional feature spaces, and may pose challenges in scenarios where memory resources are constrained.
+   Adagrad accumulates the squared gradients for each parameter, resulting in increased memory requirements. This can be a significant limitation, particularly when dealing with large datasets or high-dimensional feature spaces, and may pose challenges in scenarios where memory resources are constrained.
 
 __Inability to Adapt to Sparse Features Dynamically__
 
