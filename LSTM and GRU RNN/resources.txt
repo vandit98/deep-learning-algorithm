@@ -1,0 +1,5 @@
+--Best explaination for Gated Reccurent Unit
+https://towardsdatascience.com/understanding-gru-networks-2ef37df6c9be 
+
+## Understanding LSTM
+https://aditi-mittal.medium.com/understanding-rnn-and-lstm-f7cdf6dfc14e
