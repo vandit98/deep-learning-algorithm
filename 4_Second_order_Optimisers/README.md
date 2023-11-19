@@ -1,19 +1,34 @@
+## Why do newton method do not need learning rate?
+The use of the derivative in the update formula helps the algorithm to converge more quickly towards the root. When the derivative is large, the update is more substantial; when it is small, the update is smaller. This adaptive nature of the update, based on local information provided by the derivative, eliminates the need for a separate learning rate.
+
+![Alt text](image-9.png)
+
+
 ## 1) Newton method for calulcation the minima worls faster then why we dont use it instead of stocastic(Vanilla) Gradient descent
+
 ![Alt text](image.png)
+
 __Highly sensitive to initial conditions__
  -> See in the above image : Here the Newton’s method fails to converge(as shown by the red dot) to the minima when the starting point is (0.5, -2) but BFGS (a mystery method for now) converges to one of the minima successfully. It is therefore difficult to choose the intial points so that the Newton’s method converges. Especially true for a non-convex model would be neural networks. For the rest of this article, we will restrict our attention to only convex objective functions.
+
 __Positive Definite Hessian__
+
     -> if the hessian is not positive definite the update may increase the objective function value.Correspondingly, we require the Hessian to be positive definite.
 __Computationally expensive__
+
    As the dimensions of our problem increases, the overhead in memory and time gets out of hand very quickly. For example, in 50 dimensions, we’ll have to calculate 50(50+1)/2 = 1275 values for the Hessian at each step, and then perform approximately another (53*2500) operations to invert it. It’s clear at this point that the benefit of an increased convergence rate will be far outweighed by the large cost of the additional computation time. (computing the Hessian scales as O(n²), inverting it scales as O(n³))
 
 
 ### Newton Method?
+
 ![Alt text](image-1.png)
 
 ### Quasi-Newton Method?
 
 ![Alt text](image-2.png)
+
+
+![Alt text](image-11.png)
 
 
 ## why we do not use quasi newton method rather than stocastic gradient descent?
@@ -44,6 +59,15 @@ __Computationally expensive__
 - The effectiveness of quasi-Newton methods relies on certain smoothness assumptions that may not hold in the presence of regularization.
 
 
+
+## How quasi newton reduce the computation than newton method?
+
+In quasi-Newton methods, instead of computing the actual Hessian, we just approximate it with a positive definite matrix B, which is updated from iteration to iteration using information computed from previous steps (we require B to be positive definite because we are optimising a convex function, and this automatically takes care of the symmetry requirement of the Hessian).We immediately see that this scheme would yield a much less costly algorithm compared to Newton’s method, because instead of computing a large amount of new quantities at each iteration, we’re largely making use of previously computed quantities.
+
+![Alt text](image-10.png)
+
+
+
 ## What is adagrad?
 ![Alt text](image-3.png)
 
@@ -55,6 +79,7 @@ Adagrad is different from stocastic gradient descent
     ->we can see that Stochastic Gradient Decent use same learning rate at each iteration in all dimension. On the other hand, AdaGrad adaptively scaled the learning rate with respect to the accumulated squared gradient at each iteration in each dimension.
 
 After soem modification it converts to 
+
 ![Alt text](image-5.png)
 
 
