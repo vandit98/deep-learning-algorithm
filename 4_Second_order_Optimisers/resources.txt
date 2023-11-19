@@ -1,8 +1,13 @@
 # intro to momentem based optimisation algorithms
 https://towardsdatascience.com/stochastic-gradient-descent-with-momentum-a84097641a5d
+
+
 Intro to Adagrad 
 https://medium.com/konvergen/an-introduction-to-adagrad-f130ae871827
 
 Intro to Rmsprop and Rprop 
 https://towardsdatascience.com/understanding-rmsprop-faster-neural-network-learning-62e116fcf29a
 
+
+# Intro to Adam
+https://towardsdatascience.com/adam-latest-trends-in-deep-learning-optimization-6be9a291375c

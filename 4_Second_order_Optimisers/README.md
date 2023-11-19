@@ -76,7 +76,7 @@ Adagrad is different from stocastic gradient descent
 
 ![Alt text](image-4.png)
 
-    ->we can see that Stochastic Gradient Decent use same learning rate at each iteration in all dimension. On the other hand, AdaGrad adaptively scaled the learning rate with respect to the accumulated squared gradient at each iteration in each dimension.
+we can see that Stochastic Gradient Decent use same learning rate at each iteration in all dimension. On the other hand, AdaGrad adaptively scaled the learning rate with respect to the accumulated squared gradient at each iteration in each dimension.
 
 After soem modification it converts to 
 
@@ -93,7 +93,7 @@ In the context of sparse data, where many features have zero values, using a fix
 Adagrad addresses this challenge by adapting the learning rates for each parameter individually. This is achieved by maintaining a separate learning rate for each feature based on the historical gradient information. Here's a simplified explanation of how Adagrad works:
 
 __Accumulating Squared Gradients__
-Adagrad maintains a sum of the squares of past gradients for each parameter.
+Adagrad maintains a __sum__ of the squares of __past gradients__ for __each parameter.__
 
 __Adaptive Learning Rates__
 The learning rate for each parameter is adjusted based on the historical gradient information. Parameters associated with frequently occurring features get a smaller effective learning rate, while those associated with infrequently occurring features get a larger effective learning rate.
@@ -118,15 +118,12 @@ __Learning Rate Decay__
 
 __Monotonically Decreasing Learning Rate__
 
-    ->The accumulation of squared gradients is monotonic, causing the learning rate to decrease over time. In some cases, this monotonically decreasing learning rate may become too small, hindering the model's ability to make further updates, especially in later stages of training.
+    The accumulation of squared gradients is monotonic, causing the learning rate to decrease over time. In some cases, this monotonically decreasing learning rate may become too small, hindering the model's ability to make further updates, especially in later stages of training.
 
 __Memory Requirements__
 
-   Adagrad accumulates the squared gradients for each parameter, resulting in increased memory requirements. This can be a significant limitation, particularly when dealing with large datasets or high-dimensional feature spaces, and may pose challenges in scenarios where memory resources are constrained.
+Adagrad accumulates the squared gradients for each parameter, resulting in increased memory requirements. This can be a significant limitation, particularly when dealing with large datasets or high-dimensional feature spaces, and may pose challenges in scenarios where memory resources are constrained.
 
-__Inability to Adapt to Sparse Features Dynamically__
-
-    ->While Adagrad is designed to handle sparse data to some extent, it may not adapt well to dynamically changing sparsity patterns during training. In situations where the sparsity of features changes over time, other adaptive methods like RMSprop or Adam might be more suitable.
 
 __Not Suitable for Non-Convex Optimization__
 
@@ -150,7 +147,7 @@ Rprop doesn’t really work when we have very large datasets and need to perform
 To combine the robustness of rprop (by just using sign of the gradient), efficiency we get from mini-batches, and averaging over mini-batches which allows to combine gradients in the right way, we must look at rprop from different perspective. 
 
 ## Describe the idea behind Rmsprop?
-Rprop is equivalent of using the gradient but also dividing by the size of the gradient, so we get the same magnitude no matter how big a small that particular gradient is. The problem with mini-batches is that we divide by different gradient every time, so why not force the number we divide by to be similar for adjacent mini-batches ? The central idea of RMSprop is keep the moving average of the squared gradients for each weight. And then we divide the gradient by square root the mean square. Which is why it’s called RMSprop(root mean square). With math equations the update rule looks like this:
+Rprop is equivalent of using the gradient but also dividing by the size of the gradient, so we get the same magnitude no matter how big a small that particular gradient is. The problem with mini-batches is that we divide by different gradient every time, so why not force the number we divide by to be similar for adjacent mini-batches ? The central idea of __RMSprop is keep the moving average of the squared gradients for each weight__. And then we divide the gradient by square root the mean square. Which is why it’s called RMSprop(root mean square). With math equations the update rule looks like this:
 
 ![Alt text](image-7.png)
 As you can see from the above equation we adapt learning rate by dividing by the root of squared gradient, but since we only have the estimate of the gradient on the current mini-batch, wee need instead to use the moving average of it. Default value for the moving average parameter that you can use in your projects is 0.9. 
@@ -212,3 +209,14 @@ While less sensitive than RMSprop, Adam still requires hyperparameter tuning. Co
 
 ### Adam:
 Adam has been shown to perform well with sparse gradients, making it suitable for tasks with large and sparse datasets.
+
+
+
+## Adagrad vs Rmsprop?
+
+![Alt text](image-12.png)
+
+
+## Adam ?
+
+Adam can be looked at as a combination of RMSprop and Stochastic Gradient Descent with momentum. It uses the squared gradients to scale the learning rate like RMSprop and it takes advantage of momentum by using moving average of the gradient instead of gradient itself like SGD with momentum. Let’s take a closer look at how it works.

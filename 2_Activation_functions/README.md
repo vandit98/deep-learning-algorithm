@@ -1,5 +1,13 @@
+![Alt text](image-1.png)
+
+
+
 
 ## what are the limitations of sigmoid and its advantage?
+
+
+![Alt text](image.png)
+
 ### Advantages
 
 #### Output Range:
@@ -38,16 +46,16 @@ Zero-Centered: No, not zero-centered.
 
 __Advantages:__
 
-    ->Suitable for binary classification problems where the output needs to represent probabilities.
+Suitable for binary classification problems where the output needs to represent probabilities.
 
-    ->Smooth gradient, which is beneficial for optimization algorithms.
+Smooth gradient, which is beneficial for optimization algorithms.
 
 
 __Disadvantages:__
 
-    ->Prone to vanishing gradient problem, especially in deep networks.
+Prone to vanishing gradient problem, especially in deep networks.
 
-    ->Not zero-centered, which can affect optimization dynamics.
+Not zero-centered, which can affect optimization dynamics.
 #### Tanh (Hyperbolic Tangent):
 
 Range: Outputs values in the range (-1, 1).
@@ -56,16 +64,16 @@ Zero-Centered: Yes, zero-centered around the origin.
 
 __Advantages:__
 
-    ->Zero-centeredness helps mitigate vanishing gradient problems.
+Zero-centeredness helps mitigate vanishing gradient problems.
 
-    ->Smooth gradient for efficient optimization.
+Smooth gradient for efficient optimization.
 
-    ->Broader output range compared to sigmoid.
+Broader output range compared to sigmoid.
 
 
 __Disadvantages:__
 
-    ->Still susceptible to vanishing gradient, although less severe than sigmoid.
+Still susceptible to vanishing gradient, although less severe than sigmoid.
 
 ### ReLU (Rectified Linear Unit):
 
@@ -74,17 +82,18 @@ Range: Outputs the input for positive values, and zero for negative values.
 Zero-Centered: No, not zero-centered.
 
 __Advantages:__
-    -> Fast and computationally efficient due to simplicity.
 
-    -> Mitigates vanishing gradient problem for positive inputs.
+Fast and computationally efficient due to simplicity.
 
-    -> Promotes sparsity, leading to more efficient representations- sparsoty means that not all nuerons will be activated (due to negative being zero). This helps in the decreasing complexity and computation.
+Mitigates vanishing gradient problem for positive inputs.
+
+Promotes sparsity, leading to more efficient representations- sparsoty means that not all nuerons will be activated (due to negative being zero). This helps in the decreasing complexity and computation.
 
 __Disadvantages:__
 
-    ->Not zero-centered, which may lead to issues in optimization, especially for certain types of networks.
+Not zero-centered, which may lead to issues in optimization, especially for certain types of networks.
 
-    -> Can suffer from the "dying ReLU" problem, where neurons may become inactive during training and stop learning.
+Can suffer from the "dying ReLU" problem, where neurons may become inactive during training and stop learning.
 
 
 #### Leaky relu
@@ -93,8 +102,9 @@ it solves the duying nueron problem.
 
 
 ## What is the purpose of an activation function in a neural network?
-    ->Introducing Non-Linearity
-    ->Introduction of Thresholding
+
+Introducing Non-Linearity
+Introduction of Thresholding
 
 
 ## Since relu is a linear function , then how it brings the non linearity in the network?

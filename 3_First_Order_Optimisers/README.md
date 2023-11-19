@@ -10,7 +10,7 @@
 
 -> The model parameters are updated once per epoch (a full pass through the entire training dataset). 
 
--> 10 epochs -10 times parameter update 
+-> 10 epochs -10 times parameter update - so we use to calculate the average gradient(for each parameter) over one complete epoch and then finally made change to the parameter 
 
 #### Stochastic Gradient Descent (SGD):
 
@@ -69,13 +69,6 @@ A learning rate that is too high can cause SGD to overshoot the minimum, leading
 **Solution:**
 Experiment with different learning rates. Techniques like learning rate schedules, adaptive learning rates (e.g., Adam optimizer), or implementing early stopping can help find an appropriate learning rate.
 
-#### Highly Correlated Features:
-
-**Issue:**
-If features are highly correlated, the optimization landscape can be elongated, making it challenging for SGD to converge quickly.
-
-**Solution:**
-Perform feature scaling or consider using algorithms that are less sensitive to feature correlations, such as mini-batch gradient descent or batch normalization.
 
 #### Poorly Conditioned Cost Function:
 
@@ -101,14 +94,17 @@ In high-dimensional spaces, SGD may get stuck in saddle points, where gradients 
 **Solution:**
 Implement techniques like momentum-based methods, which can help SGD escape saddle points.
 
-#### Insufficient Exploration-Exploitation Trade-off:
-
-**Issue:**
-Focusing too much on exploration (randomness in selecting data points) can hinder convergence.
-
-**Solution:**
-Tune the balance between exploration and exploitation. Techniques like learning rate annealing and reducing the randomness of data point selection can help.
-
-These common issues and solutions highlight the challenges in optimizing Stochastic Gradient Descent and the strategies to enhance its convergence speed and effectiveness.
 
 
+## Nestov vs Momentum based Gradient descent?
+The difference between Momentum method and Nesterov Accelerated Gradient is in gradient computation phase. In Momentum method, the gradient was computed using current parameters θ𝑡
+
+![Alt text](image-1.png)
+
+whereas in Nesterov Accelerated Gradient, we apply the velocity vt to the parameters θ to compute interim parameters θ̃ . We then compute the gradient using the interim parameters
+
+![Alt text](image-2.png)
+
+
+![Alt text](image-3.png)
+In Nesterov Accelerated Gradient case, you can view it like peeking through the interim parameters where the added velocity will lead the parameters. If the velocity update leads to bad loss, then the gradients will direct the update back towards θ𝑡.This help Nesterov Accelerated Gradient to avoid the oscillations and dodge the exploding gradient issue/Overshooting.
