@@ -1,1 +1,7 @@
 
+Understanding gan
+https://towardsdatascience.com/intuitive-introduction-to-generative-adversarial-networks-gans-230e76f973a9
+
+Maths behind gan
+https://towardsdatascience.com/decoding-the-basic-math-in-gan-simplified-version-6fb6b079793
+
