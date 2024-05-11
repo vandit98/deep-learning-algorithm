@@ -1,22 +1,14 @@
-# Transfer learning Qna
-### q1) difference between transfer learning vs multitask learning ?
-| Aspect                  | Lifelong Learning                                   | Transfer Learning                                     | Multitask Learning                                      |
-|-------------------------|-----------------------------------------------------|-------------------------------------------------------|--------------------------------------------------------|
-| Learning Paradigm       | Learns a sequence of tasks incrementally,           | Focuses on transferring knowledge from a              | Simultaneously learns multiple tasks, optimizing      |
-|                         | leveraging knowledge from past tasks to aid         | source domain/task to a target domain/task.          | performance across all tasks through shared knowledge.|
-|                         | learning for future tasks.                          |                                                       |                                                        |
-| Objective               | Aims to learn well on future tasks without          | Aims to improve learning for the target task by      | Aims to improve learning/performance across all tasks. |
-|                         | observing their data so far.                        | leveraging knowledge from related tasks.            |                                                        |
-| Relationship among      | Sequences tasks and uses knowledge gained           | Typically involves a single source domain/task      | Co-learns multiple tasks concurrently, optimizing    |
-| Tasks                   | from past tasks to assist learning for future       | and a target domain/task.                           | across all tasks.                                     |
-|                         | tasks.                                              |                                                       |                                                        |
-| Knowledge Transfer      | Utilizes knowledge gained from past tasks to        | Transfers knowledge from source to target            | Shares knowledge among tasks during learning process. |
-|                         | facilitate learning for future tasks.               | domain/task.                                          |                                                        |
-| Approach                | Adapts to new tasks by leveraging past             | Adapts pre-trained models or features to new tasks   | Jointly learns tasks, exploiting commonalities among |
-|                         | knowledge without directly observing future         | with limited data.                                   | tasks to enhance learning efficiency.                 |
-|                         | task data.                                          |                                                       |                                                        |
-| Data Requirements       | Learns incrementally from task data and prior       | Requires labeled data in source domain/task,         | Requires labeled data for all tasks,                  |
-|                         | knowledge.                                          | possibly unlabeled data in target domain/task.       | potentially with shared unlabeled data.               |
-| Goal                    | Aims to learn well on future tasks without          | Enhances performance on target task only by          | Enhances performance across all tasks.               |
-|                         | observing their data so far.                        | leveraging knowledge from related tasks.            |                                                        |
-|                         |                                                     | Learning for source task(s) is irrelevant.          |                                                        |
+# Transfer Learning Qna
+## q1) Difference between Transfer Learning and Multitask Learning
+
+### Transfer Learning
+
+Transfer learning involves leveraging knowledge from one or multiple source tasks/domains to improve learning on a target task/domain. In transfer learning, the goal is to enhance performance on the target task by transferring relevant knowledge from the source task(s). This approach assumes that there are labeled training data for the source task(s) and limited labeled data (or even none) for the target task, but there is an abundance of unlabeled data available for the target task. The focus is solely on improving performance on the target task, and learning from the source task(s) is not considered relevant beyond transferring knowledge.
+
+### Multitask Learning
+
+Multitask learning, on the other hand, involves simultaneously learning multiple tasks. Rather than treating each task independently, multitask learning aims to optimize performance across all tasks by leveraging shared knowledge. In this approach, the learner co-learns all tasks simultaneously, utilizing commonalities between tasks to improve overall performance. Multitask learning can be conducted in batch mode, where all tasks are learned together, or in online mode, where tasks are learned sequentially over time, which is more akin to lifelong learning.
+
+### Lifelong Learning
+
+Lifelong learning extends beyond transfer learning and multitask learning by considering a sequential learning process. In lifelong learning, the learner accumulates knowledge from a series of tasks and applies this knowledge to facilitate learning on subsequent tasks. When faced with a new task, the learner utilizes relevant knowledge gained from past tasks to aid in learning without directly observing data from the new task. This can involve generating prior knowledge from past tasks to assist in learning without access to future task data. Lifelong learning differs from both transfer learning and multitask learning in that it emphasizes leveraging past knowledge for future tasks without jointly optimizing learning across all tasks or relying on labeled data from the target task.
