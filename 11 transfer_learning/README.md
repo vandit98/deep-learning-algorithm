@@ -1,5 +1,5 @@
 # Transfer Learning Qna
-## q1) Difference between Transfer Learning and Multitask Learning
+## q1) Difference between Transfer Learning vs Multitask Learning vs lifelong learning
 
 ### Transfer Learning
 
@@ -11,12 +11,10 @@ Multitask learning, on the other hand, involves simultaneously learning multiple
 
 ### Lifelong Learning
 
-Lifelong learning extends beyond transfer learning and multitask learning by considering a sequential learning process. In lifelong learning, the learner accumulates knowledge from a series of tasks and applies this knowledge to facilitate learning on subsequent tasks. When faced with a new task, the learner utilizes relevant knowledge gained from past tasks to aid in learning without directly observing data from the new task. This can involve generating prior knowledge from past tasks to assist in learning without access to future task data. Lifelong learning differs from both transfer learning and multitask learning in that it emphasizes leveraging past knowledge for future tasks without jointly optimizing learning across all tasks or relying on labeled data from the target task.
+Lifelong learning extends beyond transfer learning and multitask learning by considering a sequential learning process. In lifelong learning, the learner accumulates knowledge from a series of tasks and applies this knowledge to facilitate learning on subsequent tasks. When faced with a new task, the learner utilizes relevant knowledge gained from past tasks to aid in learning without directly observing data from the new task. This can involve generating prior knowledge from past tasks to assist in learning without access to future task data. **Lifelong learning differs from both transfer learning and multitask learning in that it emphasizes leveraging past knowledge for future tasks without jointly optimizing learning across all tasks or relying on labeled data from the target task.**
 
 
-## q2) Application areas of transfer learning ?
-➢Resource constraint environment
-➢Source task and target task need not to be
-solved simultaneously.
-➢Privacy concerns associated with the source
-training data-set.
+## q2) Application areas of transfer learning?
+  Resource constraint environment
+  Source task and target task need not to be solved simultaneously.
+  Privacy concerns associated with the source training data-set.
