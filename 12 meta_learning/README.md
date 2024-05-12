@@ -5,6 +5,7 @@ Meta-learning is about learning how to learn. It is an ML algorithm that learns 
 Conventional ML (base learning) has a fixed inner learning algorithm (ie. SGD, with certain hyperparameters) that updates the network to solve the task. 
 Meta-learning doesn’t have a fixed inner learning loop — instead, the inner loop is being updated by an outer algorithm.
 We learn the outer algorithm throughout the episodes. These episodes could be samples from multiple tasks or a single task.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/8486dd2b-930b-4c24-918b-a099cf1f2157)
 
 ### good source
 ```
@@ -21,7 +22,9 @@ A deep neural network model can read an entire dataset and make predictions for 
 
 ### Probabilistic View
 With regard to the probabilistic view, extracting prior information from a set of (meta-training) tasks allows efficient learning of new tasks. Leaning a new task uses this prior and (small) training set to infer the most likely posterior parameters. This view makes it easier to understand meta-learning algorithms.
-![Uploading image.png…]()
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/15ba84f3-c23a-42ff-9563-aef6fa37fcde)
+
+
 
 ## Q3) Explain the below image, specifically how meta-learning is applied to a new task?
 ![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/d2c04c80-2ca6-4c6f-b72f-a35baec38472)
@@ -30,8 +33,56 @@ we do not want to assume that every time training new tasks, we have the meta-tr
 ## Q4) Explain adaptation and how it works in detail for meta-learning.
 ![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/daaa8247-2546-444d-af4e-cec9c467399e)
 
-## Q5) What is the case when Hyperparameter optimization and auto-ML can also be cast as meta-learning ?
-It can be seen as a special case where ϕ = θ. Hyperparameter optimization and auto-ML can also be cast as meta-learning. Hyperparameter optimization is where θ corresponds to hyperparameters and ϕ corresponds to network weights. For architecture search, θ corresponds to architecture, and ϕ corresponds to network weights.
+## Q5) What is the case when Hyperparameter optimization and auto-ML can also be cast as meta-learning?
+It can be seen as a special case where ϕ = θ. Hyperparameter optimization and auto-ML can also be cast as meta-learning. Hyperparameter optimization 
+is where θ corresponds to hyperparameters and ϕ corresponds to network weights. For architecture search, θ corresponds to architecture, and ϕ corresponds to network weights.
 
+## Q6) What is black-box adaptation in meta-learning?
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/96c2d826-fb18-4e56-845a-fe9dba7480d2)
+Black-box adaptation is an approach in meta-learning where the goal is to design a system that can quickly adapt to new tasks without explicitly modeling the underlying task distribution. The term "black box" refers to treating the task adaptation process as a black box, meaning we're not concerned with understanding the inner workings of the tasks themselves but rather focusing on finding a function that can adapt to them effectively.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/7193379c-a9d9-431d-8814-9a34adc1d479)
+
+
+## Q7) Advantages and disadvantages of black box adaptation.?
+### Advantage
+**Efficiency**: One of the key reasons for using black-box adaptation is efficiency. Traditional machine learning algorithms often require large amounts of labeled data for each new task in order to perform well. Black-box adaptation aims to minimize the amount of data needed for adaptation, making it more efficient and practical for real-world applications.
+
+**Flexibility**: Black-box adaptation methods are flexible and can be applied to a wide range of tasks without needing to modify the underlying algorithm significantly. This flexibility makes them suitable for various domains and problem types.
+
+**Expressiveness**: Black-box adaptation methods, particularly those based on neural networks, are highly expressive and can capture complex relationships between input data and task-specific parameters. This expressiveness allows them to adapt effectively to diverse tasks and datasets.
+
+**Generalization**: By learning a general adaptation function rather than task-specific models, black-box adaptation methods can generalize well to new tasks that may differ from those seen during training. This ability to generalize is crucial for handling unseen tasks in real-world scenarios.
+
+
+### Dis-advantage
+The downside to this approach is in general, these neural networks are fairly complex because they need to be taking in datasets and making predictions about new data points. They essentially need to figure out how to learn from data, and they need to do this basically completely from scratch. As a result, they are often fairly data inefficient (not data inefficient at meta-test time), and they often require a large number of meta-training data and a large number of tasks in order to perform well.
+
+
+## Q8) explain the working of black box adaptation?
+![Screenshot from 2024-05-13 02-12-01](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/e5982de4-539c-45d4-afc4-e551b3f22b23)
+
+If we want to do the optimization, we first sample a task or a mini-batch of tasks (step 1). Then we sample disjoint datasets from that task dataset( which are meta-training dataset of tasks instead of the training dataset), which we will refer to as D train and D test (step 2). So if we have Di, which is all of the data for the task i, then we are going to partition Di into a training dataset and a test set for task i. So particular we can basically randomly select half of them to be used for the training dataset and half of them to be used for the test set at this iteration of the algorithm. Then we will take the training dataset (Di^{tr}, which shows in the green box) to compute the task per-specific parameters ϕ i(step3). Then we will update our meta-parameters using the gradient of the objective with respect to the meta-parameters using the computed task-specific parameters (step 4). And then we will repeat this iteratively using an optimizer, such as Adam, SGD, etc.
+
+Notably, we are not computing gradients using the training dataset. Instead, we are using the meta-training dataset of tasks. So the task-specific parameters are computed using D train, then we evaluate those parameters using the test dataset for that meta-training task.
+
+## Q9) Why do the above nueral network approach does not seems scalable and discuss the soltution to it as well?
+Notably, we are not computing gradients using the training dataset. Instead, we are using the meta-training dataset of tasks. So the task-specific parameters are computed using D train, then we evaluate those parameters using the test dataset for that meta-training task.
+
+θ is meta parameters and ϕ are considered the task-specific parameters, which is essentially not considered part of the meta parameters. ϕ could be the parameters of an entire neural network, it could also be something that’s more compact. The challenge of black-box adaptation is that if ϕ is literally representing all the parameters of another neural network, it may not be that scalable to actually output all of those neural network parameters because neural networks can be very large.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/61737f22-979f-488b-bbba-d272dc71d8a9)
+
+**Solution**
+You don’t need necessarily to output all of the parameters of a neural network. You could instead just output the sufficient statistics of that task such that you could effectively make predictions for that task.You could use low-dimensional vector hi for task i to represent contextual task information. Instead of having a neural network that outputs all of the parameters phi, it will output some set of sufficient statistics h. Then your new parameters Phi I corresponds to hi as well as part of theta that will parameterize g (ϕi={hi,θg})
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/017a6afb-529c-48e9-a88f-36d49e9c5189)
+
+
+## Q9) In muti-task learning we were also representing the task information via z (task descriptor) and we are using h for meta learning, how are they different ?
+In multi-task learning where we were concatenating task information z into the network, you could view h (hidden state), essentially as a summarization of the task that is used to make predictions for that task. So h and z are very similar. In this case, unlike z, in the multi-task learning setting, we are actually learning the task representation h: we are learning how to produce that task representation h given a small dataset of that task.
+So in summary there we are putting the task representation manually but here we are trying to learn how to represent task.
+
+## Q10) Describe meta networks and the difference between fast weight and slow weights in the meta networks.  
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/c44e49b1-c762-4325-902a-102b9ba85cf4)
 
 
