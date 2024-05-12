@@ -81,8 +81,65 @@ You don’t need necessarily to output all of the parameters of a neural network
 In multi-task learning where we were concatenating task information z into the network, you could view h (hidden state), essentially as a summarization of the task that is used to make predictions for that task. So h and z are very similar. In this case, unlike z, in the multi-task learning setting, we are actually learning the task representation h: we are learning how to produce that task representation h given a small dataset of that task.
 So in summary there we are putting the task representation manually but here we are trying to learn how to represent task.
 
+## Q10) What are permutation-invariant and permutation-variant model architecture?
+In the context of machine learning, "permutation invariant" refers to the property of a model or algorithm where the order of the inputs does not affect the output. Conversely, "permutation variant" means that the output of the model or algorithm changes depending on the order of the inputs.
+
+**Permutation Invariant:**
+
+In the context of black-box adaptation approaches, architectures that aggregate information from inputs without considering their order are permutation invariant. For example, a neural network architecture that uses average pooling to aggregate features from different data points is permutation invariant. Regardless of the order in which the data points are presented, the resulting representation remains the same.
+**Permutation Variant:**
+
+Some neural network architectures used in black-box adaptation may be permutation variant. For instance, architectures that rely on sequential processing of data points, such as recurrent neural networks (RNNs) or models with attention mechanisms applied sequentially, can produce different outputs depending on the order of the inputs. This variation in output based on input order makes these architectures permutation variant.
+
 ## Q10) Describe meta networks and the difference between fast weight and slow weights in the meta networks.  
+Source 
+```
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6519722/
+```
+
 
 ![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/c44e49b1-c762-4325-902a-102b9ba85cf4)
+MetaNet learns to fast parameterize underlying neural networks for rapid generalizations by processing a higher order meta information, resulting in a flexible AI model that can adapt to a sequence of tasks with possibly distinct input and output distributions. The model consists of two main learning modules. The meta learner is responsible for fast weight generation by operating across tasks while the base learner performs within each task by capturing the task objective. The generated fast weights are integrated into both base learner and meta learner to shift the inductive bias of the learners.The meta-learner learns from previous tasks and experiences, while the base-learner learns from the limited labeled data available for a specific task.
+The meta-learner’s role is to capture the common patterns and knowledge across different tasks, enabling it to provide useful initializations or guidance to the base-learner. This initialization helps the base-learner to learn faster and more accurately with limited labeled data.
+## Algorithm for MetaNet for one-shot supervised learning
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/80f07806-69fd-409d-8fd5-c10d8c265e98)
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/62af7198-bb60-46d9-bc84-2dd1848d127d)
 
+### Training of MetaNet consists of three main procedures:
+1) Acquisition of meta information
+2) Generation of fast weights.
+3) Optimisation of slow weights.
 
+### Meta Learner
+
+The meta learner consists of a dynamic representation learning function u and fast weight generation functions m and d. The function u has a representation learning objective and constructs embeddings of inputs in each task space by using task-level fast weights. The weight generation functions m and d are responsible for processing the meta information and generating the example and task-level fast weights.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/03875595-42a2-4c9c-a22f-a7ab67c8dcc3)
+The representation learning function u is a neural net parameterized by slow weights Q and task-level fast weights Q*. It uses the representation loss lossemb to capture a representation learning objective and to obtain the gradients as meta information. We generate the fast weights Q* on a per task basis as follows:
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/973c0e78-04d7-424c-b5b1-be5c5b02764c)
+
+where d denotes a neural net parameterized by G, that accepts variable sized input. First, we sample T examples (T≤N){x′i,y′i}Ti=1![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/15264126-a667-407e-9a00-86db660855f7)
+ from the support set and obtain the loss gradient as meta information. Then d observes the gradient corresponding to each sampled example and summarizes into the task specific parameters. We use LSTM for d although the order of inputs to d does not matter. Alternatively we can take summation or average of the gradients and use a MLP. However, in our preliminary experiment we observed that the latter results in a poor convergence.
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/b1835c04-b695-4f41-84e2-994de1256f0a)
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/21baf434-3cd7-460d-a693-edb119dd16cd)
+
+### Base Learner
+
+The base learner, denoted as b, is a function or a neural net that estimates the main task objective via a task loss losstask. However, unlike standard neural nets, b is parameterized by slow weights W and example-level fast weights W*. The slow weights are updated via a learning algorithm during training whereas the fast weights are generated by the meta learner for every input.
+
+The base learner uses a representation of meta information obtained by using a support set, to provide the meta learner with feedbacks about the new input task. The meta information is derived from the base learner in form of the loss gradient information:
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/766e2b5e-66bf-4ceb-a0b9-8590cc09b908)
+
+### Layer Augmentation
+
+A slow weight layer in the base learner is extended with its corresponding fast weights for rapid generalization. An example of the layer augmentation approach applied to a MLP is shown in Figure 2. The input of an augmented layer is first transformed by both slow and fast weights and then passed through a non-linearity (i.e. ReLU) resulting in two separate activation vectors. Finally the activation vectors are aggregated by an element-wise vector addition. For the last softmax layer, we first aggregate two transformed inputs and then normalize for classification output.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/c82ca29d-00ce-45dc-9753-09cbaaa4e2f7)
+
+Intuitively, the fast and slow weights in the layer augmented neural net can be seen as feature detectors operating in two distinct numeric domains. The application of the non-linearity maps them into the same domain, which is [0,∞) in the case of ReLU so that the activations can be aggregated and processed further. Our aggregation function here is element-wise sum.
+
+Although it is possible to define the base learner with only fast weights, in our preliminary experiment we found that the integration of both slow and fast weights with the layer augmentation approach is essential in convergence of MetaNet models. A MetaNet model relying on a base leaner with only fast weights were failed to converge and the best performance of this model was reported to be as equal as that of a constant classifier that assigns the same label to every input.
+
+**Fast weights vs slow weights**
+
+task-specific parameters as fast weights and the meta parameters as slow weights. Because one of them is updated much more quickly than the other one.
