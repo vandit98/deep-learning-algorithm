@@ -31,3 +31,9 @@ Even a linear encoder/decoder can learn to copy input to output without learning
 
 ## Q6) What are VAE (Variational Autoencoder) ?
 In a nutshell, a VAE is an autoencoder whose encodings distribution is regularised during the training in order to ensure that its latent space has good properties allowing us to generate some new data. Moreover, the term “variational” comes from the close relation there is between the regularisation and the variational inference method in statistics.
+A variational autoencoder can be defined as being an autoencoder whose training is regularised to avoid overfitting and ensure that the latent space has good properties that enable generative process.
+
+Good Source
+```
+https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+```
