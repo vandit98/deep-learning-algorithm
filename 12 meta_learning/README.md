@@ -143,3 +143,42 @@ Although it is possible to define the base learner with only fast weights, in ou
 **Fast weights vs slow weights**
 
 task-specific parameters as fast weights and the meta parameters as slow weights. Because one of them is updated much more quickly than the other one.
+
+
+## Q11) What is Ml-MANN(Meta Learning with Memory Augmented Neural Networks) ?
+source 
+```
+https://arxiv.org/pdf/1605.06065
+```
+Good Read 
+```
+https://medium.com/the-ai-team/memory-augmented-neural-network-for-meta-learning-case-study-56af9cc81ae2
+```
+Memory Augmented Neural Network is one of novel architectures to do meta learning which inspired the use of external memory from Neural Turing Machine.
+### MANN contains three major parts.
+1. Controller Network
+2. External Memory Module
+3. Read — Write Heads.
+
+### Controller Network
+The Controller Network is the either LSTM or feed forward network for prediction. Since the input for the Network is a sequence of data, it is preferable to use an RNN or LSTM. As a note, **remember that the External Memory module of MANN is not the memory cell in LSTM.**The controller interacts with an external memory module using read and write heads, which act to retrieve representations
+from memory or place them into memory, respectively.
+
+### External Memory Module and Read Write Heads
+The External Memory Module is basically a matrix which retains the memory of important parameters from one task to the other. The communication between Memory Module and the Controller Network is done by the Read Write Heads where while reading, the representations from memory is retrieved and while writing, a new memory is encoded. The governing equations of the reading and writing processes are as follows:
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/4013b89e-a177-4cc4-9f51-81cb50ac7103)
+
+For each input, the memory matrix is updated based on the usage weight and previously read vector (eqn 7). The retrieved memory is then concatenated with the input vector and fed through the Controller Network. The controller network parameters (weights and biases) is then updated by Gradient Descent carried out by the preferred optimization function minimizing the Categorical Cross Entropy.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/ec2521dc-3911-4fdf-83e4-b9a45d714416)
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/bedaf3df-4766-4a1b-8499-ec89f127e214)
+Task structure. (a) Omniglot images (or x-values for regression), xt, are presented with time-offset labels (or function values),
+yt−1, to prevent the network from simply mapping the class labels to the output. From episode to episode, the classes to be presented
+in the episode, their associated labels, and the specific samples are all shuffled. 
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/14e2ca7e-9040-4312-bd33-b8091b049797)
+
+(b) A successful strategy would involve the use of an external memory to store bound sample representation-class label information, which can then be retrieved at a later point for successful classification when a sample from an already-seen class is presented. Specifically, sample data xt from a particular time step should be bound to the appropriate class label yt, which is presented in the subsequent time step. Later, when a sample from this same class is seen, it should retrieve this bound information from the external memory to make a prediction. Backpropagated error signals from this prediction step will then shape the weight updates from the earlier steps in order to promote this binding strategy.
+
+
+
