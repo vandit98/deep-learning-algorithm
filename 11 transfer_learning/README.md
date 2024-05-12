@@ -36,15 +36,7 @@ Below is an example of the Impact of freeze and training Different layers in a n
 ![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/46ca9459-dfbc-4d5d-ac91-a28b5266d315)
 
 
-## Q4) What Is Meta-Learning?
-Meta-learning is about learning how to learn. It is an ML algorithm that learns the learning of another ml algorithm.
 
-### good source
-```
-https://medium.com/geekculture/an-introduction-to-meta-learning-b328ada3b27f
-```
-### These are the different parts of a meta-learning algorithm.
-![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/bfe93b05-eada-46cb-9f7b-a1c3de833687)
 
 ## Q5) Differentiate Meta-learning, transfer learning and multi-task learning ?
 
