@@ -180,5 +180,63 @@ in the episode, their associated labels, and the specific samples are all shuffl
 
 (b) A successful strategy would involve the use of an external memory to store bound sample representation-class label information, which can then be retrieved at a later point for successful classification when a sample from an already-seen class is presented. Specifically, sample data xt from a particular time step should be bound to the appropriate class label yt, which is presented in the subsequent time step. Later, when a sample from this same class is seen, it should retrieve this bound information from the external memory to make a prediction. Backpropagated error signals from this prediction step will then shape the weight updates from the earlier steps in order to promote this binding strategy.
 
+## Q13) Do comparitive analysis of blackbox, OPtmisation based and distance metric based meta learning ?
 
+### Optimisation based meta learning
+The key idea is obtaining our task-specific parameters ϕi through optimization. And then we will differentiate through that optimization procedure to the meta parameters to optimize for a set of meta parameters such that optimization procedure for ϕi leads to good performance.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/dc9f9ad9-c13e-453a-a5e3-36597d69bc65)
+You can essentially break down the meta-training problem as having 2 terms, one is maximizing the likelihood of your training data given your task-specific parameters and one is optimizing the likelihood of your task-specific parameters under your meta parameters.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/9becdb00-8cd0-473d-99d3-d1432fd4291d)
+Your meta parameters are serving as your prior, what form of prior should we basically impose using meta parameters. One very successful form of prior knowledge that we’ve used in deep learning optimization is the initialization. One thing is quite successful is called fine-tuning, where we take some set of initial parameters and then run gradient descent on training data for some new task. Typically, this is not for just a single gradient step as shown here but for many gradient steps.
+
+In many ways, this is a valid approach to the meta-learning problem where you first pre-train a set of parameters on your meta-training dataset and then fine-tune on your dataset at test time. But where do you get your pre-training parameters? For vision problem, the typical way to do this is by pre-trained on ImageNet classification as suing supervised learning. In language, one very popular approach for doing this is using models trained on large language corpus, models like BERT or Language Models. Or we could get pre-training parameters by other unsupervised learning techniques. You can train a large and diverse dataset and then fine-tune those parameters on whatever dataset you actually want to perform inference on.
+
+Fine-tuning is very common, so there’s a range of common practices for performing fine-tuning successfully. This includes things like fine-tuning with a smaller learning rate, using a lower learning rate for lower layers of the network. Typically for many fine-tuning problems, the low-level features are the things that need the change the least, and the higher-level concepts are the things that need to change the most for a new task. You may actually freeze earlier layers of the network. Potentially even basically setting a learning rate of zero for those layers. You could also consider re-initializing the laster layer. And then typically people search over these hyperparameters using cross-validation. Architecture choices tend to matter a lot when choosing how to fine-tune. For example, things like residual network tend to be actually quite good at fine-tuning because the gradient flows relatively easily through various parts of the network when you have residual connections.
+
+
+How about we design a meta-learning algorithm with the goal of being able to fine-tune with small amounts of data at test time? In particular, we could take our fine-tuning procedure, and evaluate how well those task-specific parameters did on a test dataset or on new data points, then optimize for pre-trained parameters such that fine-tuning gives a set of parameters that do well on the test data points. You can do this optimization across all of the tasks in your meta-training dataset such that fine-tuning with small amounts of data leads to good generalization. So essentially, it’ll be training for a set of parameters theta across many different tasks such that it can transfer effectively via fine-tuning.
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/44835a1b-f32c-43dd-b89f-1224b0acb1d1)
+At a more intuitive level, θ is the meta parameters, and ϕi* is the optimal parameter vector for task i. Then you can view the meta-training process of this optimization as the thick black line where when you are at this point during the meta-training process and you take a gradient step with respect to task 3, you are quite far from the optimum for task 3. Whereas at the end of the meta-training process, you take a gradient with respect to task 3, you are quite close to the optimum. And likewise, for a range of other tasks. We refer to this as the Model-Agnostic Meta-Learning algorithm, in the sense that it embeds this optimization procedure in a way that’s agnostic to the model that’s used and the loss function that’s used, as long as both of them are amenable to gradient-based optimization. This diagram is intuitive but also misleading. First, typically neural network parameters do not exist in 2 dimensions. Besides, there often is not a single optimum, but actually a whole space of optima for neural network parameters.
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/07b7a4af-c2bb-49ea-b309-0d9bdd330725)
+Let’s look into the algorithm. We take first take the algorithm for a black-box approach, then adapt it to the optimization-based meta-learning case. Essentially, you first sample a task, you can sample your datasets. Then instead of computing your task-specific parameters using a neural network, you are going to be computing them using one or a few steps of fine-tuning. And then you update your meta-parameters by differentiating through those fine-tuning steps into your initial set of parameters.
+One thing worth mentioning about this algorithm is that it brings up second-order derivative because we are optimizing for a set of meta parameters.
+
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/703c1eeb-75a2-4f1e-8ef3-d88d8801a549)
+
+
+### Distance based meta learning
+![image](https://github.com/vandit98/deep-learning-algorithm/assets/91458535/31f0e90a-dbe6-40f3-86b6-23d30242f6e9)
+Metric-based meta learning is commonly used for various tasks such as image similarity detection, signature detection, facial recognition, etc. This approach focuses on learning a distance metric which is a function that measures the similarity or dissimilarity between pairs of data points.
+
+Metric learning can be used to learn a good representation of space for the data. This is done by training the meta learning algorithm with different sets of tasks, each with a small amount of training data. The image below is an example of metric-based meta learning from the paper SigNet: Convolutional Siamese Network for Writer Independent Offline Signature Verification. It depicts a Siamese network that uses metric-based meta learning to identify real and forged images. 
+
+### The step-by-step working detail of metric learning is as follows:
+
+1. **Prepare the Data:**
+   - Ensure that the data is properly formatted and preprocessed.
+   - This could involve loading pairs of images, audio files, or any other type of data.
+
+2. **Initialize the Distance Metric:**
+   - Initialize the distance metric with random values.
+   - This step prepares the model for learning the similarity between data points.
+
+3. **Compute Pairwise Similarity:**
+   - Use the initialized distance metric to compute pairwise similarity for all pairs of data points.
+   - This establishes a baseline similarity between each pair of data points.
+
+4. **Compute Loss Function:**
+   - Define a loss function that measures how well the computed similarities match the target similarity matrix.
+   - This loss function will guide the optimization process to improve the model's performance.
+
+5. **Compute Gradient of Loss Function:**
+   - Compute the gradient of the loss function with respect to the parameters of the distance metric.
+   - This gradient will indicate the direction in which the parameters should be adjusted to minimize the loss.
+
+6. **Update Distance Metric:**
+   - Update the distance metric using the gradients computed from the previous step.
+   - This step iteratively improves the distance metric to better capture the desired similarities.
+
+
+Steps 3 to 6 are repeated until the distance metric converges or for a fixed number of iterations.
 
